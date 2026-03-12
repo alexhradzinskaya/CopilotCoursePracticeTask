@@ -6,18 +6,14 @@ import PageHeader from '@/components/PageHeader';
 import SearchBar from '@/components/SearchBar';
 import FilterPanel from '@/components/FilterPanel';
 import { mockEvents } from '@/data/mock';
+import { filterEvents } from '@/utils/filterEvents';
 
 export default function EventsPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [status, setStatus] = useState('');
 
-  const filtered = mockEvents.filter((e) => {
-    const matchSearch = e.title.toLowerCase().includes(search.toLowerCase()) || e.description.toLowerCase().includes(search.toLowerCase());
-    const matchCategory = category === '' || e.category === category;
-    const matchStatus = status === '' || e.status === status;
-    return matchSearch && matchCategory && matchStatus;
-  });
+  const filtered = filterEvents(mockEvents, search, category, status);
 
   return (
     <PublicLayout>
