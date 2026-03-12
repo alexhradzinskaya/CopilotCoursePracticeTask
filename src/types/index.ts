@@ -37,3 +37,5 @@ export interface Registration {
   status: RegistrationStatus;
   registeredAt: string;
 }
+
+export type EventFormData = Omit<Event, 'id' | 'organizerId' | 'registeredCount'>;

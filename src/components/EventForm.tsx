@@ -1,8 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Event, EventCategory, EventStatus } from '@/types';
-
-type EventFormData = Omit<Event, 'id' | 'organizerId' | 'registeredCount'>;
+import { EventCategory, EventStatus, EventFormData } from '@/types';
 
 interface EventFormProps {
   initial?: Partial<EventFormData>;

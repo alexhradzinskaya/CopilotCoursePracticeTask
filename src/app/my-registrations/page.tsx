@@ -3,23 +3,28 @@ import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import Badge from '@/components/Badge';
 import { mockEvents, mockRegistrations, currentUser } from '@/data/mock';
+import { formatDate } from '@/utils/format';
 
 export default function MyRegistrationsPage() {
+  const eventMap = new Map(mockEvents.map((e) => [e.id, e]));
   const userRegistrations = mockRegistrations
     .filter((r) => r.userId === currentUser.id)
-    .map((r) => ({
-      ...r,
-      eventTitle: mockEvents.find((e) => e.id === r.eventId)?.title ?? 'Unknown',
-      eventDate: mockEvents.find((e) => e.id === r.eventId)?.date ?? '',
-    }));
+    .map((r) => {
+      const event = eventMap.get(r.eventId);
+      return {
+        ...r,
+        eventTitle: event?.title ?? 'Unknown',
+        eventDate: event?.date ?? '',
+      };
+    });
 
   type RowType = typeof userRegistrations[number];
 
   const columns = [
     { key: 'eventTitle', header: 'Event' },
-    { key: 'eventDate', header: 'Date', render: (row: RowType) => new Date(row.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },
+    { key: 'eventDate', header: 'Date', render: (row: RowType) => formatDate(row.eventDate) },
     { key: 'status', header: 'Status', render: (row: RowType) => <Badge label={row.status} variant={row.status === 'confirmed' ? 'success' : row.status === 'waitlisted' ? 'warning' : 'error'} /> },
-    { key: 'registeredAt', header: 'Registered On', render: (row: RowType) => new Date(row.registeredAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },
+    { key: 'registeredAt', header: 'Registered On', render: (row: RowType) => formatDate(row.registeredAt) },
   ];
 
   return (

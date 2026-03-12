@@ -6,9 +6,9 @@ import DataTable from '@/components/DataTable';
 import Badge from '@/components/Badge';
 import EventForm from '@/components/EventForm';
 import { mockEvents } from '@/data/mock';
-import { Event } from '@/types';
+import { Event, EventFormData } from '@/types';
+import { formatDate } from '@/utils/format';
 
-type EventFormData = Omit<Event, 'id' | 'organizerId' | 'registeredCount'>;
 type Feedback = { type: 'success' | 'error'; message: string };
 
 export default function AdminEventsPage() {
@@ -48,7 +48,7 @@ export default function AdminEventsPage() {
     { key: 'title', header: 'Title' },
     { key: 'category', header: 'Category', render: (row: Event) => <Badge label={row.category} variant="info" /> },
     { key: 'status', header: 'Status', render: (row: Event) => <Badge label={row.status} variant={row.status === 'upcoming' ? 'success' : row.status === 'cancelled' ? 'error' : 'default'} /> },
-    { key: 'date', header: 'Date', render: (row: Event) => new Date(row.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },
+    { key: 'date', header: 'Date', render: (row: Event) => formatDate(row.date) },
     { key: 'registeredCount', header: 'Registered', render: (row: Event) => `${row.registeredCount} / ${row.capacity}` },
     {
       key: 'actions', header: 'Actions', render: (row: Event) => (

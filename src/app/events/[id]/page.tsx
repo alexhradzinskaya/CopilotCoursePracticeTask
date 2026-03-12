@@ -3,6 +3,7 @@ import PublicLayout from '@/layouts/PublicLayout';
 import Badge from '@/components/Badge';
 import { mockEvents } from '@/data/mock';
 import Link from 'next/link';
+import { formatDateLong, formatTime } from '@/utils/format';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -13,8 +14,8 @@ export default async function EventDetailsPage({ params }: PageProps) {
   const event = mockEvents.find((e) => e.id === id);
   if (!event) notFound();
 
-  const dateStr = new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  const timeStr = new Date(event.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  const dateStr = formatDateLong(event.date);
+  const timeStr = formatTime(event.date);
   const spotsLeft = event.capacity - event.registeredCount;
 
   return (
