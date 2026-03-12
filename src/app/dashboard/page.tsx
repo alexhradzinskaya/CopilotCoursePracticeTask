@@ -2,6 +2,7 @@ import AppLayout from '@/layouts/AppLayout';
 import PageHeader from '@/components/PageHeader';
 import StatsCard from '@/components/StatsCard';
 import EventCard from '@/components/EventCard';
+import Link from 'next/link';
 import { mockEvents, mockRegistrations, currentUser } from '@/data/mock';
 
 export default function DashboardPage() {
@@ -23,7 +24,7 @@ export default function DashboardPage() {
       </div>
       <h2 className="text-lg font-semibold text-gray-800 mb-3">Your Upcoming Events</h2>
       {upcomingEvents.length === 0 ? (
-        <p className="text-gray-400">No upcoming events. <a href="/events" className="text-indigo-600 hover:underline">Browse events</a></p>
+        <p className="text-gray-400">No upcoming events. <Link href="/events" className="text-indigo-600 hover:underline">Browse events</Link></p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {upcomingEvents.map((event) => <EventCard key={event.id} event={event} />)}

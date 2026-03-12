@@ -5,11 +5,12 @@ import { mockEvents } from '@/data/mock';
 import Link from 'next/link';
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function EventDetailsPage({ params }: PageProps) {
-  const event = mockEvents.find((e) => e.id === params.id);
+export default async function EventDetailsPage({ params }: PageProps) {
+  const { id } = await params;
+  const event = mockEvents.find((e) => e.id === id);
   if (!event) notFound();
 
   const dateStr = new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
